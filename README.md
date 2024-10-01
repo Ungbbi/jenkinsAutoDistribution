@@ -2,7 +2,7 @@
 ---
 # 🎯 목표 및 개요
 **개발 및 테스트 서버에서 JAR 파일이 갱신되면 운영서버에도 자동으로 반영**되는 것이 **목표**입니다.</br></br>
-개발 및 테스트 서버의 JAR파일은 Jenkins가 현재 레포지토리의 **Commit을 감지**하면 JAR파일을 다시 빌드하고 바인드 되어있는 경로에 Copy 합니다.</br>
+개발 및 테스트 서버의 JAR파일은 Jenkins가 fisatest 레포지토리의 **Commit을 감지**하면 JAR파일을 다시 빌드하고 바인드 되어있는 경로에 Copy 합니다.</br>
 이후, 개발 및 테스트 서버가 JAR파일이 변경됐음을 감지하고 **SCP**를 통해 **운영서버**에 JAR파일을 **전송**합니다.</br>
 운영서버는 변경된 JAR파일을 **실시간으로 반영**하여 재실행 시킵니다.</br></br>
 
@@ -18,7 +18,7 @@ VMVirtualBox / Ubuntu LTS 22.04 환경
   - 운영서버</br>
   - ip : 10.0.2.19</br></br>
 ### Jenkins
-- 현재 레포인 jenkinsAutoDistribution을 hookup
+- fisatest 레포를 hookup
 - `myserver01`에서 Docker로 Jenkins 컨테이너를 실행 중</br>
 - port 8080 사용
 
@@ -57,7 +57,9 @@ docker run --name myjenkins --privileged -p 8080:8080 -v $(pwd)/appjardir:/var/j
 위 명령어를 입력하여 jenkins 컨테이너를 생성합니다. -v 로 로컬저장소에 컨테이너 내 경로인 `/var/jenkins_home/appjar`를 마운트 해줍니다.</br>
 
 Github webhook 설정을 하려면 외부에서 접속이 가능해야 하므로 ngrok을 사용하겠습니다.</br>
-ngrok.exe가 위치해있는 
+ngrok.exe가 위치해있는 디렉토리에서 cmd를 실행시키고 다음 명령어를 입력합니다.</br>
+`./ngrok http http://localhost:8080`
+
 컨테이너가 실행됐다면 `127.0.0.1:8080` 또는 ngrok으로 접속한 다음 로그인을 완료합니다.
 </br></br>
 
