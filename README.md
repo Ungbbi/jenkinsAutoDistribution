@@ -16,7 +16,8 @@
 - Jenkins는 현재 레포(jenkinsAutoDistribution)를 Github hook 설정한 상태</br>
 - Jenkins
 - myserver02는 JAR 파일 실행 중</br></br>
-- 
+
+포워딩 8999:8080으로 설정
 
 
 
