@@ -9,7 +9,7 @@
 
 ---
 # 🛠️ 환경 및 설정
-### 가상머신
+### 🟦 가상머신
 VMVirtualBox / Ubuntu LTS 22.04 환경
 - 가상머신 : `myserver01`
   - 개발 및 테스트 서버</br>
@@ -18,29 +18,28 @@ VMVirtualBox / Ubuntu LTS 22.04 환경
 - 가상머신 : `myserver02`
   - 운영서버</br>
   - ip : 10.0.2.19</br></br>
-### Jenkins
+### 🔹 Jenkins
 - fisatest 레포를 hook  [Hook할 Repository](https://github.com/Ungbbi/fisatest)
 - `myserver01`에서 Docker로 Jenkins 컨테이너를 실행 중</br>
 - port 8080 사용
 
-### JAR File
+### 🔹 JAR File
 - Spring Boot Application
 - ServerPort = 8899
 
-### Forwarding
+### 🔹 Forwarding
 <img width="635" alt="{B88EE5A3-2550-4828-AD66-E00A8DF9F7E9}" src="https://github.com/user-attachments/assets/3683c4fd-8945-4ed5-940f-5fdb1366579a"></br></br>
-- SprinApp은 `myserver01`에서 실행하는 JAR File이 http 응답을 받을 포트입니다.</br>
-- SPringApp2는 `myserver02`에서 실행하는 JAR File이 http 응답을 받을 포트입니다.</br>
+- SprinApp은 `myserver01`에서 실행하는 Spring Application과 통신하기 위해 설정한 포워딩입니다.</br>
+- SPringApp2는 `myserver02`에서 실행하는 Spring Application과 통신하기 위해 설정한 포워딩입니다.</br>
 
-### Shell Script
-
-#### myserver01
+#### 🔹myserver01
 JAR file이 있는 디렉토리에 sh파일들을 위치시킵니다.
 - `autorunning.sh` : 8899 포트를 사용중인 이전 프로세스를 종료시키고 갱신된 JAR file을 백그라운드로 새로 실행시키며  app.log에 로그를 저장합니다.
 - `change.sh` : JAR File의 수정을 작성된 시간 변화를 통해 감지하고 `autorunning.sh`를 실행하여 이전 프로세스를 종료시키고 갱신된 JAR를 실행시키도록 합니다.
 </br> **( myserver01에서는 추가로 scp 명령어를 추가하여 myserver02로 갱신된 JAR file을 전송합니다. )**
 </br>
-#### myserver02
+
+#### 🔹myserver02
 
 - `autorunning.sh` : 8899 포트를 사용중인 이전 프로세스를 종료시키고 갱신된 JAR file을 백그라운드로 새로 실행시키며  app.log에 로그를 저장합니다.
 - `change.sh` : JAR File의 수정을 작성된 시간 변화를 통해 감지하고 `autorunning.sh`를 실행하여 이전 프로세스를 종료시키고 갱신된 JAR를 실행시키도록 합니다.
@@ -58,9 +57,9 @@ JAR file이 있는 디렉토리에 sh파일들을 위치시킵니다.
 **4. `myserver02` 에서 실행중인 `change.sh`에 의해 JAR 파일 갱신 감지 및 재실행**</br></br>
 
 ---
-# 실습
-## 1. Jenkins
-### Jenkins Container 생성 및 접속
+# 💻 실습
+## 🟦 1. Jenkins
+### 🔹Jenkins Container 생성 및 접속
 ```shell
 docker run --name myjenkins --privileged -p 8080:8080 -v $(pwd)/appjardir:/var/jenkins_home/appjar jenkins/jenkins:lts-jdk17
 ```
@@ -79,7 +78,7 @@ Payload URL 부분에 ngrok에서 포워딩 한 주소를 넣어주고 그 뒤�
 
 Jenkins에 접속해줍시다. 웹에 `127.0.0.1:8080` 또는 ngrok에서 포워딩 한 주소를 입력해주면 됩니다.</br>
 
-### Jenkins Pipeline 설정
+### 🔹Jenkins Pipeline 설정
 Jenkins에 접속하였으니 이제 새 item을 만들어줍시다.</br>
 - github hook을 체크해주고 pipeline 은 다음과 같이 작성하였습니다.
 ```
@@ -117,5 +116,7 @@ pipeline {
 Build가 성공하고 나서 myserver01에서 마운트된 로컬 경로를 확인해보면 다음과 같이 SpringApp *.jar 파일이 생성된 것을 확인할 수 있습니다.
 <img width="518" alt="{8193F739-CA6A-4338-ACCB-59527593A6F8}" src="https://github.com/user-attachments/assets/fd1325a8-0d73-471c-95c9-21d5e3fac49b"></br>
 
-## 2. Github 갱신 시
+이제 `change.sh`를 실행시키
+
+## 🟦 2. Github 갱신 시
 
